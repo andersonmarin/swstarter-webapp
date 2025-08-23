@@ -12,12 +12,12 @@ async function Page({params}: { params: Promise<{ id: string }> }) {
 
     return (
         <div
-            className="flex flex-col gap-5 bg-white p-4 rounded-lg border border-gray-300 min-w-2xl shadow-md h-100">
+            className="flex flex-col gap-5 bg-white p-4 rounded-lg border border-gray-300 w-2xl shadow-md">
             <div className="font-semibold">{people.result.properties.name}</div>
             <div className="flex flex-row gap-10 flex-1">
                 <div className="flex-1">
                     <div className="font-semibold border-b border-gray-300 pb-2">Details</div>
-                    <div className="py-2">
+                    <div className="py-2 h-100">
                         <div>Birth Year: {people.result.properties.birth_year}</div>
                         <div>Gender: {people.result.properties.gender}</div>
                         <div>Eye Color: {people.result.properties.eye_color}</div>
@@ -28,10 +28,10 @@ async function Page({params}: { params: Promise<{ id: string }> }) {
                 </div>
                 <div className="flex-1">
                     <div className="font-semibold border-b border-gray-300 pb-2">Movies</div>
-                    <div className="py-2">
+                    <div className="py-2 h-100 overflow-y-auto flex flex-col gap-1">
                         {films.map(film => (
                             <Link key={film.result.uid}
-                                  href={`/movies/${film.result.uid}`}
+                                  href={`/movie/${film.result.uid}`}
                                   className="text-blue-700 underline">{film.result.properties.title}</Link>
                         ))}
                     </div>

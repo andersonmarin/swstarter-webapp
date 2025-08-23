@@ -12,7 +12,9 @@ export default function Home() {
     const [searchText, setSearchText] = useState("");
 
     async function fetchData(searchType: typeof availableSearchTypes[number], searchText: string) {
-        const response = await fetch(`https://www.swapi.tech/api/${searchType}/?name=${searchText}`);
+        const collection = searchType === "people" ? "people" : "films";
+        const property = searchType === "people" ? "name" : "title";
+        const response = await fetch(`https://www.swapi.tech/api/${collection}/?${property}=${searchText}`);
         const data = await response.json();
 
         if (data.message !== "ok") {
@@ -64,8 +66,8 @@ export default function Home() {
                             {results.map((r) => (
                                 <div key={r.uid}
                                      className="flex gap-4 items-center justify-between h-12 border-b border-gray-300">
-                                    <div className="font-semibold">{r.properties.name}</div>
-                                    <Link href={`/people/${r.uid}`}
+                                    <div className="font-semibold">{r.properties.name || r.properties.title}</div>
+                                    <Link href={`/${searchType}/${r.uid}`}
                                           className="bg-green-600 px-4 text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300 flex items-center justify-center">
                                         See details
                                     </Link>
