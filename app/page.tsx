@@ -34,7 +34,7 @@ export default function Home() {
     }
 
     return (
-        <div className="flex justify-center items-start min-h-screen bg-gray-100 p-8 gap-8">
+        <>
             <div className="flex flex-col gap-5 bg-white p-4 rounded-lg border border-gray-300 min-w-xs shadow-md">
                 <div>What are you searching for?</div>
                 <div className="flex gap-4">
@@ -62,10 +62,10 @@ export default function Home() {
                     ? (
                         <div className="h-100 overflow-y-auto">
                             {results.map((r) => (
-                                <div key={r._id}
+                                <div key={r.uid}
                                      className="flex gap-4 items-center justify-between h-12 border-b border-gray-300">
                                     <div className="font-semibold">{r.properties.name}</div>
-                                    <Link href={`/people/${r._id}`}
+                                    <Link href={`/people/${r.uid}`}
                                           className="bg-green-600 px-4 text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300 flex items-center justify-center">
                                         See details
                                     </Link>
@@ -82,6 +82,6 @@ export default function Home() {
                         </div>
                     )}
             </div>
-        </div>
+        </>
     );
 }
