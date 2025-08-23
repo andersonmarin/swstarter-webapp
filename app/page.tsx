@@ -1,11 +1,13 @@
 "use client";
 
 import {useState} from "react";
+import Link from "next/link";
 
 export default function Home() {
     const availableSearchTypes = ["people", "movie"];
 
     const [results, setResults] = useState([]);
+    const [searching, setSearching] = useState(false);
     const [searchType, setSearchType] = useState(availableSearchTypes[0]);
     const [searchText, setSearchText] = useState("");
 
@@ -21,12 +23,18 @@ export default function Home() {
     }
 
     async function search() {
-        const results = await fetchData(searchType, searchText);
-        setResults(results);
+        if (searching) return;
+        try {
+            setSearching(true);
+            const results = await fetchData(searchType, searchText);
+            setResults(results);
+        } finally {
+            setSearching(false);
+        }
     }
 
     return (
-        <div className="flex justify-center items-start h-screen bg-gray-100 p-8 gap-8">
+        <div className="flex justify-center items-start min-h-screen bg-gray-100 p-8 gap-8">
             <div className="flex flex-col gap-5 bg-white p-4 rounded-lg border border-gray-300 min-w-xs shadow-md">
                 <div>What are you searching for?</div>
                 <div className="flex gap-4">
@@ -42,17 +50,37 @@ export default function Home() {
                        placeholder="e.g. Chewbacca, Yoda, Boba Fett"
                        value={searchText} onChange={(e) => setSearchText(e.target.value)}/>
                 <button
-                    className="bg-green-600 text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300"
+                    className="bg-green-600 text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300 flex items-center justify-center"
                     onClick={search} disabled={searchText.length === 0}>
-                    Search
+                    {searching ? "Searching..." : "Search"}
                 </button>
             </div>
             <div
-                className="flex flex-col gap-5 bg-white p-4 rounded-lg border border-gray-300 min-w-lg shadow-md">
+                className="flex flex-col bg-white p-4 rounded-lg border border-gray-300 min-w-lg shadow-md">
                 <div className="font-semibold border-b border-gray-300 pb-2">Results</div>
-                <div className="text-gray-400 text-center flex items-center justify-center min-h-100">
-                    There are zero matches.<br/>Use the form to search for People or Movies.
-                </div>
+                {results.length > 0 && !searching
+                    ? (
+                        <div className="h-100 overflow-y-auto">
+                            {results.map((r) => (
+                                <div key={r._id}
+                                     className="flex gap-4 items-center justify-between h-12 border-b border-gray-300">
+                                    <div className="font-semibold">{r.properties.name}</div>
+                                    <Link href={`/people/${r._id}`}
+                                          className="bg-green-600 px-4 text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300 flex items-center justify-center">
+                                        See details
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    )
+                    : (
+                        <div className="text-gray-400 text-center flex items-center justify-center h-100">
+                            {searching
+                                ? <>Searching...</>
+                                : <>There are zero matches.<br/>Use the form to search for People or Movies.</>
+                            }
+                        </div>
+                    )}
             </div>
         </div>
     );
