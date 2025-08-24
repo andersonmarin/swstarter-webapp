@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Home() {
     const availableSearchTypes = ["people", "movie"];
 
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState<{ uid: string, properties: { name?: string, title?: string } }[]>([]);
     const [searching, setSearching] = useState(false);
     const [searchType, setSearchType] = useState(availableSearchTypes[0]);
     const [searchText, setSearchText] = useState("");
@@ -14,7 +14,7 @@ export default function Home() {
     async function fetchData(searchType: typeof availableSearchTypes[number], searchText: string) {
         const collection = searchType === "people" ? "people" : "films";
         const property = searchType === "people" ? "name" : "title";
-        const response = await fetch(`https://www.swapi.tech/api/${collection}/?${property}=${searchText}`);
+        const response = await fetch(`https://www.swapi.tech/api/${collection}/?${property}=${searchText}`, {cache: "force-cache"});
         const data = await response.json();
 
         if (data.message !== "ok") {

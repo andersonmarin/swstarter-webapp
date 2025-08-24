@@ -1,0 +1,49 @@
+"use server";
+
+type Resource<T> = {
+    uid: string
+    properties: T
+}
+
+type People = {
+    name: string
+    birth_year: string
+    gender: string
+    eye_color: string
+    hair_color: string
+    height: string
+    mass: string
+    films: string[]
+}
+
+type Film = {
+    title: string
+    characters: string[]
+    opening_crawl: string
+}
+
+type Collections = {
+    people: People,
+    films: Film
+}
+
+const BASE_URL = "https://www.swapi.tech/api";
+
+export async function getFromSWAPIByUID<K extends keyof Collections>(collection: K, uid: string): Promise<Resource<Collections[K]>> {
+    return fetchFromSWAPI(`${BASE_URL}/${collection}/${uid}`);
+}
+
+export async function getFromSWAPIByURI<K extends keyof Collections>(uri: string): Promise<Resource<Collections[K]>> {
+    return fetchFromSWAPI(uri);
+}
+
+async function fetchFromSWAPI<T>(uri: string): Promise<T> {
+    const response = await fetch(uri, {cache: "force-cache"});
+    const data = await response.json();
+
+    if (data.message !== "ok") {
+        throw new Error(data.message);
+    }
+
+    return data.result || data.results;
+}
