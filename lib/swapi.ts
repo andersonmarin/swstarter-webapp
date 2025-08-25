@@ -47,3 +47,13 @@ async function fetchFromSWAPI<T>(uri: string): Promise<T> {
 
     return data.result || data.results;
 }
+
+const searchProperties: Record<keyof Collections, string> = {
+    people: "name",
+    films: "title",
+};
+
+export async function searchFromSWAPI<K extends keyof Collections>(collection: K, search: string): Promise<Resource<Collections[K]>[]> {
+    const property = searchProperties[collection];
+    return fetchFromSWAPI(`https://www.swapi.tech/api/${collection}/?${property}=${search}`);
+}
