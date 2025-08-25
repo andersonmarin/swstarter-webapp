@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, {ReactNode} from "react";
 
 function DetailCard({title, children}: {
-    title: string,
+    title: ReactNode,
     children: ReactNode,
 }) {
     return (

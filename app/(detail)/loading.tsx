@@ -3,13 +3,12 @@ import DetailCardCol from "@/app/(detail)/_components/DetailCardCol";
 
 function Page() {
     return (
-        <DetailCard title="Loading...">
+        <DetailCard title={<div className="rounded bg-gray-100 animate-pulse h-6 w-1/2"/>}>
             {new Array(2).fill(0).map((_, i) => (
-                <DetailCardCol key={i} title="Loading...">
-                    <div
-                        className="text-gray-400 text-center flex items-center justify-center h-100 flex-1">
-                        Loading...
-                    </div>
+                <DetailCardCol key={i} title={<div className="rounded bg-gray-100 animate-pulse h-6"/>}>
+                    {new Array(5).fill(0).map((_, j) => (
+                        <div key={j} className="rounded bg-gray-100 animate-pulse h-6"/>
+                    ))}
                 </DetailCardCol>
             ))}
         </DetailCard>
