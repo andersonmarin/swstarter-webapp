@@ -19,10 +19,13 @@ async function Page({params}: { params: Promise<{ id: string }> }) {
                 <div>Mass: {people.properties.mass}</div>
             </DetailCardCol>
             <DetailCardCol title="Movies">
-                {films.map(film => (
-                    <Link key={film.uid}
-                          href={`/movie/${film.uid}`}
-                          className="text-blue-700 underline">{film.properties.title}</Link>
+                {films.map((film, i) => (
+                    <span key={film.uid}>
+                        {i > 0 && ", "}
+                        <Link
+                            href={`/movie/${film.uid}`}
+                            className="text-blue-700 underline">{film.properties.title}</Link>
+                    </span>
                 ))}
 
             </DetailCardCol>

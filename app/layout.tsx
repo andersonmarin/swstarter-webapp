@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <body className={`${montserrat.className} antialiased`}>
+        <body className={`${montserrat.variable} ${montserrat.className} antialiased`}>
         <Navbar/>
         <div
             className="flex flex-col lg:flex-row lg:justify-center lg:items-start min-h-screen bg-gray-100 p-8 py-20 gap-8">

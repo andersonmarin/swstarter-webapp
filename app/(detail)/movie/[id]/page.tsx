@@ -11,13 +11,18 @@ async function Page({params}: { params: Promise<{ id: string }> }) {
     return (
         <DetailCard title={film.properties.title}>
             <DetailCardCol title="Opening Crawl">
-                {film.properties.opening_crawl}
+                <div className="whitespace-pre-line">
+                    {film.properties.opening_crawl}
+                </div>
             </DetailCardCol>
             <DetailCardCol title="Characters">
-                {characters.map(p => (
-                    <Link key={p.uid}
-                          href={`/people/${p.uid}`}
-                          className="text-blue-700 underline">{p.properties.name}</Link>
+                {characters.map((p, i) => (
+                    <span key={p.uid}>
+                        {i > 0 && ", "}
+                        <Link
+                            href={`/people/${p.uid}`}
+                            className="text-blue-700 underline">{p.properties.name}</Link>
+                    </span>
                 ))}
             </DetailCardCol>
         </DetailCard>
