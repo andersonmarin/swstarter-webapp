@@ -11,6 +11,11 @@ export default function Home() {
         "movie": "films",
     };
 
+    const searchTypePlaceholder: Record<string, string> = {
+        "people": "e.g. Chewbacca, Yoda, Boba Fett",
+        "movie": "e.g. Attack of the Clones, The Empire Strikes Back",
+    };
+
     const [results, setResults] = useState<{ uid: string, properties: { name?: string, title?: string } }[]>([]);
     const [searching, setSearching] = useState(false);
     const [searchType, setSearchType] = useState<keyof typeof availableSearchTypes>("people");
@@ -43,7 +48,7 @@ export default function Home() {
                     ))}
                 </div>
                 <input className="h-8 px-2 border border-gray-300 rounded" type="text"
-                       placeholder="e.g. Chewbacca, Yoda, Boba Fett"
+                       placeholder={searchTypePlaceholder[searchType]}
                        value={searchText} onChange={(e) => setSearchText(e.target.value)}/>
                 <button
                     className="bg-green-600 text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300 flex items-center justify-center"
