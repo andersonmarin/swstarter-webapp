@@ -14,6 +14,7 @@ export default function Home() {
     const [results, setResults] = useState<{ uid: string, properties: { name?: string, title?: string } }[]>([]);
     const [searching, setSearching] = useState(false);
     const [searchType, setSearchType] = useState<keyof typeof availableSearchTypes>("people");
+    const [latestSearchType, setLatestSearchType] = useState<typeof searchType>(searchType);
     const [searchText, setSearchText] = useState("");
 
     async function search() {
@@ -22,6 +23,7 @@ export default function Home() {
             setSearching(true);
             const results = await searchFromSWAPI(availableSearchTypes[searchType], searchText);
             setResults(results);
+            setLatestSearchType(searchType);
         } finally {
             setSearching(false);
         }
@@ -59,7 +61,7 @@ export default function Home() {
                                 <div key={r.uid}
                                      className="flex gap-4 items-center justify-between h-12 border-b border-gray-300">
                                     <div className="font-semibold">{r.properties.name || r.properties.title}</div>
-                                    <Link href={`/${searchType}/${r.uid}`}
+                                    <Link href={`/${latestSearchType}/${r.uid}`}
                                           className="bg-green-600 px-4 text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300 flex items-center justify-center">
                                         See details
                                     </Link>
