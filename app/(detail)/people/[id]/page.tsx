@@ -34,7 +34,7 @@ async function Page({params}: { params: Promise<{ id: string }> }) {
                 </div>
             </div>
             <div>
-                <Link href="/"
+                <Link href="/public"
                       className="bg-green-600 px-8 text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300 inline-flex items-center justify-center">
                     Back to search
                 </Link>
