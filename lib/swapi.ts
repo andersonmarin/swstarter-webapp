@@ -1,31 +1,6 @@
 "use server";
 
-type Resource<T> = {
-    uid: string
-    properties: T
-}
-
-type People = {
-    name: string
-    birth_year: string
-    gender: string
-    eye_color: string
-    hair_color: string
-    height: string
-    mass: string
-    films: string[]
-}
-
-type Film = {
-    title: string
-    characters: string[]
-    opening_crawl: string
-}
-
-type Collections = {
-    people: People,
-    films: Film
-}
+import {Collections, Resource} from "@/lib/types";
 
 const BASE_URL = "https://www.swapi.tech/api";
 
@@ -48,7 +23,7 @@ async function fetchFromSWAPI<T>(uri: string): Promise<T> {
     return data.result || data.results;
 }
 
-const searchProperties: Record<keyof Collections, string> = {
+const searchProperties: Readonly<Record<keyof Collections, string>> = {
     people: "name",
     films: "title",
 };

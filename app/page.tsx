@@ -3,25 +3,24 @@
 import {useState} from "react";
 import Link from "next/link";
 import {searchFromSWAPI} from "@/lib/swapi";
+import {Collection} from "@/lib/types";
 
 export default function Home() {
-    type Collection = "people" | "films";
-
-    const availableSearchTypes: Record<Collection, string> = {
+    const availableSearchTypes: Record<string, Collection> = {
         "people": "people",
-        "films": "movie",
+        "movie": "films",
     };
 
     const [results, setResults] = useState<{ uid: string, properties: { name?: string, title?: string } }[]>([]);
     const [searching, setSearching] = useState(false);
-    const [searchType, setSearchType] = useState<Collection>("people");
+    const [searchType, setSearchType] = useState<keyof typeof availableSearchTypes>("people");
     const [searchText, setSearchText] = useState("");
 
     async function search() {
         if (searching) return;
         try {
             setSearching(true);
-            const results = await searchFromSWAPI(searchType, searchText);
+            const results = await searchFromSWAPI(availableSearchTypes[searchType], searchText);
             setResults(results);
         } finally {
             setSearching(false);
@@ -33,10 +32,10 @@ export default function Home() {
             <div className="flex flex-col gap-5 bg-white p-4 rounded-lg border border-gray-300 min-w-xs shadow-md">
                 <div>What are you searching for?</div>
                 <div className="flex gap-4">
-                    {Object.entries(availableSearchTypes).map(([collection, name]) => (
-                        <label key={collection} className="flex gap-1 items-center">
-                            <input type="radio" name="searchType" value={collection}
-                                   checked={searchType === collection} onChange={() => setSearchType(collection)}/>
+                    {Object.keys(availableSearchTypes).map((name) => (
+                        <label key={name} className="flex gap-1 items-center">
+                            <input type="radio" name="searchType" value={name}
+                                   checked={searchType === name} onChange={() => setSearchType(name)}/>
                             <span className="font-semibold capitalize">{name}</span>
                         </label>
                     ))}
