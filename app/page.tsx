@@ -36,7 +36,8 @@ export default function Home() {
 
     return (
         <>
-            <div className="flex flex-col gap-5 bg-white p-4 rounded-lg border border-gray-300 min-w-xs shadow-md">
+            <div
+                className="flex flex-col gap-5 bg-white p-4 rounded-lg border border-gray-300 min-w-full lg:min-w-xs shadow-md">
                 <div>What are you searching for?</div>
                 <div className="flex gap-4">
                     {Object.keys(availableSearchTypes).map((name) => (
@@ -47,17 +48,17 @@ export default function Home() {
                         </label>
                     ))}
                 </div>
-                <input className="h-8 px-2 border border-gray-300 rounded" type="text"
+                <input className="h-8 px-2 border border-gray-300 rounded focus:border-gray-800 outline-0" type="text"
                        placeholder={searchTypePlaceholder[searchType]}
                        value={searchText} onChange={(e) => setSearchText(e.target.value)}/>
                 <button
-                    className="bg-green-600 text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300 flex items-center justify-center"
+                    className="bg-green-600 hover:bg-green-700 transition-colors text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300 flex items-center justify-center"
                     onClick={search} disabled={searchText.length === 0}>
                     {searching ? "Searching..." : "Search"}
                 </button>
             </div>
             <div
-                className="flex flex-col bg-white p-4 rounded-lg border border-gray-300 min-w-lg shadow-md">
+                className="flex flex-col bg-white p-4 rounded-lg border border-gray-300 min-w-full lg:min-w-lg shadow-md">
                 <div className="font-semibold border-b border-gray-300 pb-2">Results</div>
                 {results.length > 0 && !searching
                     ? (
@@ -65,9 +66,10 @@ export default function Home() {
                             {results.map((r) => (
                                 <div key={r.uid}
                                      className="flex gap-4 items-center justify-between h-12 border-b border-gray-300">
-                                    <div className="font-semibold">{r.properties.name || r.properties.title}</div>
+                                    <div
+                                        className="font-semibold text-nowrap text-ellipsis overflow-hidden">{r.properties.name || r.properties.title}</div>
                                     <Link href={`/${latestSearchType}/${r.uid}`}
-                                          className="bg-green-600 px-4 text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300 flex items-center justify-center">
+                                          className=" text-nowrap bg-green-600 hover:bg-green-700 transition-colors px-4 text-white font-bold uppercase h-8 rounded-full cursor-pointer disabled:bg-gray-300 flex items-center justify-center">
                                         See details
                                     </Link>
                                 </div>
